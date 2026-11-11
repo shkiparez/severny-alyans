@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Северный Альянс — грузоперевозки</title>
+<meta name="description" content="Северный Альянс — грузоперевозки из Новосибирска по России и странам СНГ в фиксированные сроки.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lime:#d6f74b; --lime-d:#bfe02f;
+  --ink:#0d0e10; --ink-2:#17191c; --ink-3:#22252a;
+  --paper:#ffffff; --paper-2:#f4f5f1;
+  --muted:#7b7f86; --line:#e6e7e3; --line-d:#2c2f35;
+  --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.logo,.num{font-family:Unbounded,Inter,sans-serif;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:600 14px Inter,sans-serif;padding:14px 24px;border-radius:999px;transition:.25s}
+.btn-lime{background:var(--lime);color:var(--ink)}
+.btn-lime:hover{background:#fff;transform:translateY(-2px)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--ink-3);transform:translateY(-2px)}
+
+/* preloader */
+#pre{position:fixed;inset:0;background:var(--ink);z-index:100;display:grid;place-items:center;transition:opacity .6s,visibility .6s}
+#pre.hide{opacity:0;visibility:hidden}
+#pre .logo{font-size:clamp(40px,8vw,96px);color:#fff;display:flex;align-items:center;gap:18px;opacity:0;animation:preIn 1.2s .1s forwards}
+#pre .logo svg{width:1em;height:1em}
+@keyframes preIn{0%{opacity:0;filter:blur(14px);letter-spacing:.2em}100%{opacity:1;filter:blur(0);letter-spacing:-.02em}}
+
+/* header */
+header{position:fixed;top:16px;left:0;right:0;z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);border-radius:999px;padding:8px 8px 8px 22px;box-shadow:0 6px 30px rgba(0,0,0,.08)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;text-transform:uppercase}
+.logo svg{width:26px;height:26px;flex:none}
+.menu{display:flex;gap:4px;background:var(--paper-2);border-radius:999px;padding:4px}
+.menu a{font-size:13px;font-weight:500;padding:8px 16px;border-radius:999px;transition:.2s}
+.menu a:hover{background:#fff}
+.menu a.on{background:var(--ink);color:#fff}
+.nav-r{display:flex;align-items:center;gap:8px}
+.lang{font-size:13px;font-weight:600;padding:8px 12px;border-radius:999px;background:var(--paper-2)}
+.nav .btn{padding:11px 18px;font-size:13px}
+.logo,.menu a,.nav .btn{white-space:nowrap}
+.burger{display:none;width:42px;height:42px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:18px;cursor:pointer}
+
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:100svh;background:#0b1210;color:#fff;overflow:hidden;display:flex;align-items:center}
+.hero .scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);animation:zoom 20s ease-out forwards}
+@keyframes zoom{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,12,10,.15) 30%,rgba(8,12,10,.75) 75%),linear-gradient(0deg,rgba(8,12,10,.7),transparent 40%)}
+.hero .wrap{position:relative;z-index:2;width:100%;display:flex;justify-content:flex-end}
+.hero-box{max-width:560px;padding:120px 0 80px}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--lime);margin-bottom:20px}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(214,247,75,.2)}
+.hero h1{font-size:clamp(32px,4.4vw,58px);line-height:1.05;font-weight:700;margin-bottom:22px}
+.hero h1 em{font-style:normal;color:var(--lime)}
+.hero p{color:#c9cec9;font-size:17px;max-width:460px;margin-bottom:32px}
+.hero-meta{display:flex;gap:28px;margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.15)}
+.hero-meta b{display:block;font:700 22px Unbounded,sans-serif;color:#fff}
+.hero-meta span{font-size:12px;color:#9aa09a}
+.truck{animation:drive 18s linear infinite}
+@keyframes drive{0%{offset-distance:0%}100%{offset-distance:100%}}
+.fog{animation:fog 22s ease-in-out infinite alternate}
+@keyframes fog{to{transform:translateX(-120px)}}
+.scroll-hint{position:absolute;left:50%;bottom:26px;z-index:2;transform:translateX(-50%);width:26px;height:42px;border:2px solid rgba(255,255,255,.4);border-radius:20px}
+.scroll-hint::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--lime);animation:sh 1.6s infinite}
+@keyframes sh{to{transform:translateY(14px);opacity:0}}
+
+/* sections */
+section{padding:110px 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:56px}
+.head h2{font-size:clamp(28px,3.6vw,48px);line-height:1.05;font-weight:700}
+.head p{max-width:360px;color:var(--muted);font-size:15px}
+.center{text-align:center}
+
+/* countries */
+.grid-c{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);aspect-ratio:1.35;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:.3s;cursor:default}
+.cell svg{width:84px;height:56px;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,.12);transition:.3s}
+.cell span{font-size:14px;font-weight:600}
+.cell small{font-size:12px;color:var(--muted);margin-top:-12px}
+.cell:hover{background:var(--paper-2)}
+.cell:hover svg{transform:scale(1.1) rotate(-3deg)}
+.more{display:flex;justify-content:center;margin-top:40px}
+
+/* cargo */
+.cargo{background:var(--paper-2)}
+.list{border-top:1px solid #d9dbd5}
+.item{border-bottom:1px solid #d9dbd5}
+.item button{all:unset;cursor:pointer;width:100%;display:grid;grid-template-columns:60px 1fr auto 44px;align-items:center;gap:20px;padding:26px 0}
+.item .n{font:600 13px Unbounded,sans-serif;color:var(--muted)}
+.item h3{font-size:clamp(17px,2vw,24px);font-weight:600}
+.item .hint{font-size:13px;color:var(--muted)}
+.item .pl{width:44px;height:44px;border-radius:50%;border:1px solid #c9ccc4;display:grid;place-items:center;font-size:20px;transition:.3s}
+.item.open .pl{background:var(--lime);border-color:var(--lime);transform:rotate(45deg)}
+.item .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s}
+.item.open .body{grid-template-rows:1fr}
+.item .body>div{overflow:hidden}
+.item .body p{padding:0 0 28px 80px;max-width:760px;color:#4b4f55}
+.item button:hover h3{color:#000;text-decoration:underline;text-decoration-color:var(--lime);text-decoration-thickness:3px;text-underline-offset:6px}
+
+/* why */
+.why h2{font-size:clamp(28px,3.6vw,48px);font-weight:700;text-align:center;margin-bottom:14px}
+.why .sub{text-align:center;color:var(--muted);margin-bottom:70px}
+.reason{display:grid;grid-template-columns:minmax(140px,280px) 1fr;gap:40px;align-items:start;padding:40px 0;border-top:1px solid var(--line)}
+.reason .num{font-size:clamp(80px,10vw,150px);font-weight:800;line-height:.85;color:var(--lime);-webkit-text-stroke:2px var(--lime-d)}
+.reason h3{font-size:clamp(20px,2.2vw,28px);font-weight:600;margin:10px 0 12px}
+.reason p{color:var(--muted);max-width:560px}
+
+/* process */
+.proc{background:var(--ink);color:#fff;border-radius:40px 40px 0 0}
+.proc-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:60px}
+.proc h2{font-size:clamp(28px,3.6vw,48px);font-weight:700;line-height:1.05;position:sticky;top:120px}
+.proc h2 em{font-style:normal;color:var(--lime)}
+.steps{position:relative;padding-left:60px}
+.steps::before{content:"";position:absolute;left:17px;top:10px;bottom:10px;width:2px;background:var(--line-d)}
+.steps .bar{position:absolute;left:17px;top:10px;width:2px;height:0;background:var(--lime);transition:height .1s}
+.step{position:relative;background:var(--ink-2);border:1px solid var(--line-d);border-radius:var(--r);padding:28px;margin-bottom:22px;transition:.4s}
+.step::before{content:attr(data-n);position:absolute;left:-60px;top:24px;width:36px;height:36px;border-radius:50%;background:var(--ink-3);border:2px solid var(--line-d);display:grid;place-items:center;font:700 13px Unbounded,sans-serif;color:#8a8f96;transition:.4s}
+.step.act{border-color:#3d4220}
+.step.act::before{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.step h3{font-size:19px;font-weight:600;margin-bottom:8px}
+.step p{color:#9aa0a6;font-size:15px}
+.step .t{display:inline-block;margin-top:14px;font-size:12px;color:var(--lime);background:rgba(214,247,75,.1);padding:5px 12px;border-radius:999px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:100px;padding-top:60px;border-top:1px solid var(--line-d)}
+.stat .num{font-size:clamp(40px,5vw,72px);font-weight:700;color:#fff}
+.stat .num i{font-style:normal;color:var(--lime)}
+.stat p{color:#8a8f96;font-size:14px;margin-top:6px;max-width:220px}
+
+/* reviews */
+.rev{background:var(--ink);padding-top:0}
+.rev-in{background:#fff;border-radius:40px;padding:100px 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:18px;transition:.3s;background:#fff}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.07);border-color:transparent}
+.card .top{display:flex;justify-content:space-between;align-items:center}
+.stars{color:#f5b800;letter-spacing:2px}
+.score{font:700 14px Unbounded,sans-serif}
+.card p{color:#3e4248;font-size:15px;flex:1}
+.who{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--line)}
+.ava{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px}
+.who b{display:block;font-size:14px}
+.who span{font-size:12px;color:var(--muted)}
+.card.hide{display:none}
+
+/* contacts */
+.stripes{position:absolute;pointer-events:none;width:520px;height:520px}
+.stripes.l{left:-200px;top:-80px}
+.stripes.r{right:-200px;bottom:-120px}
+.contacts{position:relative;overflow:hidden;background:var(--paper-2)}
+.ct-card{position:relative;display:grid;grid-template-columns:1fr 1.1fr;gap:50px;max-width:1040px;margin:0 auto;background:#fff;border-radius:28px;padding:56px;box-shadow:0 30px 80px rgba(0,0,0,.08)}
+.ct-l h2{font-size:clamp(28px,3.4vw,46px);font-weight:700;line-height:1.05}
+.ct-l p{color:var(--muted);margin:16px 0 30px;max-width:340px}
+.btn-wa{background:#25d366;color:#fff}
+.btn-wa:hover{background:#1ebe5a;transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(6px)}
+.btn-ghost:hover{background:rgba(255,255,255,.22)}
+.ct-r{display:flex;flex-direction:column}
+.ct-row{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.ct-row:first-child{padding-top:0}
+.ct-row:last-child{border-bottom:0}
+.ct-row span{grid-column:1;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.ct-row b{grid-column:1;font:600 clamp(15px,1.6vw,20px) Unbounded,sans-serif}
+.ct-row i{grid-column:2;grid-row:1/3;align-self:center;font-style:normal;font-size:12px;font-weight:600;background:var(--lime);padding:6px 12px;border-radius:999px;white-space:nowrap}
+a.ct-row:hover b{color:#5c7a00}
+.wa-float{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;box-shadow:0 10px 30px rgba(37,211,102,.45);transition:.25s}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float svg{width:28px;height:28px}
+section[id]{scroll-margin-top:90px}
+
+/* footer */
+footer{background:var(--ink);color:#fff;padding:80px 0 30px}
+.f-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
+footer .logo{font-size:22px;margin-bottom:18px}
+footer p,footer li{color:#8a8f96;font-size:14px}
+footer h4{font-size:13px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px;color:#fff}
+footer ul{list-style:none;display:grid;gap:10px}
+footer li a:hover{color:var(--lime)}
+.soc{display:flex;gap:8px;margin-top:22px}
+.soc a{width:40px;height:40px;border-radius:10px;background:var(--ink-3);display:grid;place-items:center;font-size:13px;font-weight:700;transition:.2s}
+.soc a:hover{background:var(--lime);color:var(--ink)}
+.big{font:800 clamp(28px,7.6vw,124px)/1 Unbounded,sans-serif;color:transparent;-webkit-text-stroke:1px #2c2f35;text-align:center;margin:70px 0 30px;white-space:nowrap;overflow:hidden}
+.copy{display:flex;justify-content:space-between;gap:20px;font-size:13px;color:#6a6e74;border-top:1px solid var(--line-d);padding-top:24px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* responsive */
+@media (max-width:1180px){
+  .menu,.lang,.nav .btn{display:none}
+  .burger{display:block}
+  .nav.open{flex-wrap:wrap;border-radius:24px}
+  .nav.open .menu{display:flex;flex-direction:column;width:100%;order:3;background:none}
+  .nav.open .menu a{font-size:16px;padding:12px 16px}
+}
+@media (max-width:1000px){
+  .grid-c{grid-template-columns:repeat(2,1fr)}
+  .proc-grid{grid-template-columns:1fr}
+  .proc h2{position:static}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr 1fr}
+  .f-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  header{top:10px}
+  section{padding:72px 0}
+  .head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:36px}
+  .hero::after{background:linear-gradient(0deg,rgba(8,12,10,.92) 35%,rgba(8,12,10,.3))}
+  .hero .wrap{align-items:flex-end}
+  .hero-box{padding:110px 0 60px}
+  .hero-meta{gap:18px}
+  .cell svg{width:64px;height:43px}
+  .item button{grid-template-columns:36px 1fr 40px;gap:12px}
+  .item .hint{display:none}
+  .item .body p{padding-left:48px}
+  .reason{grid-template-columns:1fr;gap:6px}
+  .steps{padding-left:50px}
+  .step{padding:22px}
+  .step::before{left:-50px}
+  .cards{grid-template-columns:1fr}
+  .ct-card{grid-template-columns:1fr;gap:30px;padding:30px 20px;border-radius:22px}
+  .stripes{width:300px;height:300px}
+  .stripes.l{left:-150px;top:-60px}
+  .stripes.r{right:-150px;bottom:-60px}
+  .wa-float{right:14px;bottom:14px}
+  .f-grid{grid-template-columns:1fr}
+  .copy{flex-direction:column}
+  .proc,.rev-in{border-radius:28px 28px 0 0}
+  .rev-in{border-radius:28px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div id="pre"><div class="logo"><svg viewBox="0 0 40 40"><path d="M20 2 36 30H26L20 19 14 30H4Z" fill="#d6f74b"/><path d="M4 34h32v4H4z" fill="#fff"/></svg>СЕВЕРНЫЙ АЛЬЯНС</div></div>
+
+<header>
+  <div class="wrap">
+    <nav class="nav" id="nav">
+      <a href="#top" class="logo"><svg viewBox="0 0 40 40"><path d="M20 2 36 30H26L20 19 14 30H4Z" fill="#0d0e10"/><path d="M4 34h32v4H4z" fill="#b5d62a"/></svg>Северный Альянс</a>
+      <div class="menu">
+        <a href="#top" class="on">Главная</a>
+        <a href="#countries">География</a>
+        <a href="#cargo">Грузы</a>
+        <a href="#process">Как работаем</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contacts">Контакты</a>
+      </div>
+      <div class="nav-r">
+        <span class="lang">RU</span>
+        <a href="tel:+79993005414" class="btn btn-dark">+7 999 300-54-14</a>
+        <button class="burger" id="burger" aria-label="Меню">☰</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top" style="padding:0">
+  <video class="scene" autoplay muted loop playsinline preload="auto" poster="media/poster.jpg">
+    <source src="media/hero-mobile.mp4" type="video/mp4" media="(max-width: 700px)">
+    <source src="media/hero.mp4" type="video/mp4">
+  </video>
+  <div class="wrap">
+    <div class="hero-box">
+      <div class="tag rv">Транспортная компания · Новосибирск</div>
+      <h1 class="rv">Доставка грузов <em>точно в срок</em> — от склада до двери</h1>
+      <p class="rv">Собственный автопарк, личный менеджер на связи и фиксированная дата доставки, прописанная в договоре.</p>
+      <div class="rv" style="display:flex;gap:12px;flex-wrap:wrap"><a href="https://wa.me/79993005414" target="_blank" rel="noopener" class="btn btn-lime"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg> Написать в WhatsApp</a><a href="#contacts" class="btn btn-ghost">Контакты</a></div>
+      <div class="hero-meta rv">
+        <div><b>48 ч</b><span>средний срок</span></div>
+        <div><b>120+</b><span>машин в парке</span></div>
+        <div><b>24/7</b><span>поддержка</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"></div>
+</section>
+
+<!-- COUNTRIES -->
+<section id="countries">
+  <div class="wrap">
+    <div class="head rv">
+      <h2>Страны,<br>куда мы везём</h2>
+      <p>Работаем по 8 направлениям. Растаможка, документы и страхование груза — на нашей стороне.</p>
+    </div>
+    <div class="grid-c rv" id="flags"></div>
+    <div class="more"><button class="btn btn-dark" id="moreC">Показать все</button></div>
+  </div>
+</section>
+
+<!-- CARGO -->
+<section class="cargo" id="cargo">
+  <div class="wrap">
+    <div class="head rv">
+      <h2>Что мы<br>перевозим</h2>
+      <p>Подбираем транспорт под тип груза: тент, рефрижератор, низкорамный трал или сборный груз.</p>
+    </div>
+    <div class="list rv" id="list"></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="wrap">
+    <h2 class="rv">Почему сроки соблюдаются</h2>
+    <p class="sub rv">Четыре причины, по которым дата в договоре — это реальная дата</p>
+    <div class="reason rv"><div class="num">01</div><div><h3>Собственный автопарк, без субподрядчиков</h3><p>Груз не передаётся третьим лицам. Мы сами отвечаем за машину, водителя и маршрут — от погрузки до выгрузки.</p></div></div>
+    <div class="reason rv"><div class="num">02</div><div><h3>Штатные водители</h3><p>Водители работают у нас годами, знают маршруты и пограничные переходы. Никаких случайных людей за рулём.</p></div></div>
+    <div class="reason rv"><div class="num">03</div><div><h3>Документы берём на себя</h3><p>CMR, декларации, сертификаты — готовим заранее, чтобы машина не простаивала на таможне.</p></div></div>
+    <div class="reason rv"><div class="num">04</div><div><h3>Личный менеджер на связи</h3><p>За каждым грузом закреплён менеджер. Он ответит в WhatsApp или по телефону и заранее предупредит о любых изменениях.</p></div></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="proc" id="process">
+  <div class="wrap">
+    <div class="proc-grid">
+      <h2 class="rv">Как проходит<br>процесс —<br><em>шаг за шагом</em></h2>
+      <div class="steps" id="steps">
+        <div class="bar" id="bar"></div>
+        <div class="step rv" data-n="1"><h3>Заявка</h3><p>Оставляете заявку на сайте или по телефону. Менеджер перезванивает, уточняет маршрут, вес и габариты.</p><span class="t">15 минут</span></div>
+        <div class="step rv" data-n="2"><h3>Расчёт и договор</h3><p>Считаем стоимость, фиксируем дату доставки и подписываем договор — цена не меняется в пути.</p><span class="t">1 день</span></div>
+        <div class="step rv" data-n="3"><h3>Погрузка</h3><p>Машина приезжает в согласованное время. Проверяем крепление груза и оформляем документы на месте.</p><span class="t">в день подачи</span></div>
+        <div class="step rv" data-n="4"><h3>Доставка</h3><p>Менеджер держит вас в курсе на каждом этапе. Получатель принимает груз, вы получаете закрывающие документы.</p><span class="t">точно в срок</span></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat rv"><div class="num" data-to="8"><span>0</span><i>+</i></div><p>лет на рынке грузоперевозок</p></div>
+      <div class="stat rv"><div class="num" data-to="36"><span>0</span></div><p>городов в регулярных маршрутах</p></div>
+      <div class="stat rv"><div class="num" data-to="12"><span>0</span><i>k</i></div><p>доставленных грузов</p></div>
+      <div class="stat rv"><div class="num" data-to="97"><span>0</span><i>%</i></div><p>доставок день в день по договору</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="rev" id="reviews">
+  <div class="rev-in">
+    <div class="wrap">
+      <div class="head rv">
+        <h2>Отзывы<br>клиентов</h2>
+        <p>Рейтинг 4,3 в 2ГИС — 39 оценок от наших клиентов.</p>
+      </div>
+      <div class="cards" id="cards"></div>
+      <div class="more"><button class="btn btn-dark" id="moreR">Больше отзывов</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section class="contacts" id="contacts">
+  <svg class="stripes l" viewBox="0 0 100 100"><g transform="rotate(45 50 50)"><rect x="-50" y="20" width="200" height="12" fill="#d6f74b"/><rect x="-50" y="40" width="200" height="12" fill="#0d0e10"/><rect x="-50" y="60" width="200" height="12" fill="#d6f74b"/></g></svg>
+  <svg class="stripes r" viewBox="0 0 100 100"><g transform="rotate(45 50 50)"><rect x="-50" y="20" width="200" height="12" fill="#0d0e10"/><rect x="-50" y="40" width="200" height="12" fill="#d6f74b"/><rect x="-50" y="60" width="200" height="12" fill="#0d0e10"/></g></svg>
+  <div class="wrap">
+    <div class="ct-card rv">
+      <div class="ct-l">
+        <div class="tag" style="color:#5c7a00">Контакты</div>
+        <h2>Свяжитесь<br>с нами</h2>
+        <p>Рассчитаем стоимость и сроки перевозки. Быстрее всего ответим в WhatsApp.</p>
+        <a href="https://wa.me/79993005414" target="_blank" rel="noopener" class="btn btn-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg> Написать в WhatsApp</a>
+      </div>
+      <div class="ct-r">
+        <a class="ct-row" href="tel:+79993005414"><span>Телефон · WhatsApp</span><b>+7 999 300-54-14</b><i>Позвонить</i></a>
+        <a class="ct-row" href="tel:+79137775414"><span>Телефон</span><b>+7 913 777-54-14</b><i>Позвонить</i></a>
+        <a class="ct-row" href="https://2gis.ru/novosibirsk/search/%D0%A1%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%20%D0%90%D0%BB%D1%8C%D1%8F%D0%BD%D1%81" target="_blank" rel="noopener"><span>Адрес</span><b>Новосибирск, Кировский район, 630088</b><i>2ГИС →</i></a>
+        <div class="ct-row"><span>Режим работы</span><b>Ежедневно 09:00–18:00</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="logo"><svg viewBox="0 0 40 40"><path d="M20 2 36 30H26L20 19 14 30H4Z" fill="#d6f74b"/><path d="M4 34h32v4H4z" fill="#fff"/></svg>Северный Альянс</div>
+        <p>Грузоперевозки из Новосибирска по России и странам СНГ в фиксированные сроки.</p>
+        <div class="soc"><a href="https://wa.me/79993005414" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg></a><a href="tel:+79993005414" aria-label="Позвонить">☎</a></div>
+      </div>
+      <div><h4>Навигация</h4><ul><li><a href="#countries">География</a></li><li><a href="#cargo">Грузы</a></li><li><a href="#process">Как работаем</a></li><li><a href="#reviews">Отзывы</a></li><li><a href="#contacts">Контакты</a></li></ul></div>
+      <div><h4>Услуги</h4><ul><li>FTL перевозки</li><li>Сборные грузы</li><li>Рефрижератор</li><li>Негабарит</li></ul></div>
+      <div><h4>Контакты</h4><ul><li><a href="tel:+79993005414">+7 999 300-54-14</a></li><li><a href="tel:+79137775414">+7 913 777-54-14</a></li><li><a href="https://wa.me/79993005414" target="_blank" rel="noopener">WhatsApp</a></li><li>Новосибирск, Кировский р-н</li><li>09:00–18:00</li></ul></div>
+    </div>
+    <div class="big">СЕВЕРНЫЙ АЛЬЯНС</div>
+    <div class="copy"><span>© 2026 Северный Альянс. Все права защищены.</span><span>Политика конфиденциальности</span></div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/79993005414" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg></a>
+
+<script>
+// preloader
+addEventListener('load',()=>setTimeout(()=>document.getElementById('pre').classList.add('hide'),900));
+setTimeout(()=>document.getElementById('pre').classList.add('hide'),2500);
+
+// burger
+burger.onclick=()=>nav.classList.toggle('open');
+// all in-page links: smooth scroll via JS (works on any host / preview)
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const id=a.getAttribute('href').slice(1),el=document.getElementById(id);
+  if(!el)return;e.preventDefault();nav.classList.remove('open');
+  const y=id==='top'?0:el.getBoundingClientRect().top+scrollY-90;
+  scrollTo({top:y,behavior:'smooth'});
+  try{history.replaceState(null,'','#'+id)}catch(_){}
+}));
+
+// flags (simplified SVG)
+const F={
+ 'Россия':'<rect width="3" height="2" fill="#fff"/><rect y=".667" width="3" height=".667" fill="#0039a6"/><rect y="1.333" width="3" height=".667" fill="#d52b1e"/>',
+ 'Беларусь':'<rect width="3" height="2" fill="#c8313e"/><rect y="1.333" width="3" height=".667" fill="#4aa657"/><rect width=".33" height="2" fill="#fff"/>',
+ 'Казахстан':'<rect width="3" height="2" fill="#00afca"/><circle cx="1.5" cy=".95" r=".38" fill="#fec50c"/><path d="M1.15 1.45Q1.5 1.65 1.85 1.45" stroke="#fec50c" stroke-width=".1" fill="none"/>',
+ 'Узбекистан':'<rect width="3" height="2" fill="#fff"/><rect width="3" height=".64" fill="#0099b5"/><rect y="1.36" width="3" height=".64" fill="#1eb53a"/><rect y=".64" width="3" height=".05" fill="#ce1126"/><rect y="1.31" width="3" height=".05" fill="#ce1126"/>',
+ 'Кыргызстан':'<rect width="3" height="2" fill="#e8112d"/><circle cx="1.5" cy="1" r=".45" fill="#ffef00"/><circle cx="1.5" cy="1" r=".25" fill="#e8112d"/>',
+ 'Армения':'<rect width="3" height="2" fill="#d90012"/><rect y=".667" width="3" height=".667" fill="#0033a0"/><rect y="1.333" width="3" height=".667" fill="#f2a800"/>',
+ 'Китай':'<rect width="3" height="2" fill="#de2910"/><path d="M.5 .25l.12.37h.39l-.31.23.12.37-.32-.23-.32.23.12-.37-.31-.23h.39z" fill="#ffde00"/>',
+ 'Турция':'<rect width="3" height="2" fill="#e30a17"/><circle cx="1.15" cy="1" r=".5" fill="#fff"/><circle cx="1.27" cy="1" r=".4" fill="#e30a17"/><path d="M1.85 1l.25-.08-.15.21v-.26l.15.21z" fill="#fff"/>',
+ 'Грузия':'<rect width="3" height="2" fill="#fff"/><rect x="1.3" width=".4" height="2" fill="#f00"/><rect y=".8" width="3" height=".4" fill="#f00"/>',
+ 'Монголия':'<rect width="3" height="2" fill="#0066b3"/><rect width="1" height="2" fill="#c4272f"/><rect x="2" width="1" height="2" fill="#c4272f"/>',
+ 'Азербайджан':'<rect width="3" height="2" fill="#00b5e2"/><rect y=".667" width="3" height=".667" fill="#ef3340"/><rect y="1.333" width="3" height=".667" fill="#509e2f"/>',
+ 'Таджикистан':'<rect width="3" height="2" fill="#fff"/><rect width="3" height=".57" fill="#cc0000"/><rect y="1.43" width="3" height=".57" fill="#006600"/>'
+};
+const days={'Россия':'1–5 дней','Беларусь':'2–3 дня','Казахстан':'3–6 дней','Узбекистан':'6–9 дней','Кыргызстан':'6–8 дней','Армения':'5–7 дней','Китай':'12–18 дней','Турция':'7–10 дней','Грузия':'5–7 дней','Монголия':'9–12 дней','Азербайджан':'6–8 дней','Таджикистан':'7–10 дней'};
+const names=Object.keys(F);
+const fl=document.getElementById('flags');
+const drawFlags=n=>{fl.innerHTML=names.slice(0,n).map(k=>`<div class="cell"><svg viewBox="0 0 3 2" preserveAspectRatio="none">${F[k]}</svg><span>${k}</span><small>${days[k]}</small></div>`).join('')};
+drawFlags(8);
+moreC.onclick=()=>{const all=fl.children.length>8;drawFlags(all?8:12);moreC.textContent=all?'Показать все':'Свернуть'};
+
+// cargo accordion
+const C=[
+ ['Стандартный груз','Паллеты, коробки, оборудование','Тентованные фуры 82–120 м³ до 20 тонн. Подходит для товаров народного потребления, стройматериалов, оборудования в упаковке.'],
+ ['Продукты и фармацевтика','Рефрижератор от −20 до +25 °C','Рефрижераторы с непрерывной записью температуры. Сертифицированы для перевозки лекарств и продуктов питания.'],
+ ['Негабаритный груз','Спецтехника, конструкции','Низкорамные тралы, согласование маршрута, сопровождение и разрешения на перевозку тяжеловесов.'],
+ ['Опасный груз','ADR классы 2–9','Водители с допуском ADR, специально оборудованные машины и полный пакет документов.'],
+ ['Сборный груз','От 1 паллеты','Платите только за занятое место. Консолидируем грузы на складе и отправляем регулярными рейсами.']
+];
+list.innerHTML=C.map((c,i)=>`<div class="item"><button><span class="n">0${i+1}</span><h3>${c[0]}</h3><span class="hint">${c[1]}</span><span class="pl">+</span></button><div class="body"><div><p>${c[2]}</p></div></div></div>`).join('');
+list.querySelectorAll('.item').forEach(it=>it.querySelector('button').onclick=()=>{
+  const o=it.classList.contains('open');list.querySelectorAll('.item').forEach(x=>x.classList.remove('open'));if(!o)it.classList.add('open')});
+list.firstElementChild.classList.add('open');
+
+// reviews
+const R=[
+ ['Андрей Ковалёв','ООО «СтройТех»','Перевозили оборудование в Казахстан. Машина пришла день в день, документы готовы заранее — на границе простояли меньше часа.','#d6f74b'],
+ ['Марина Соколова','Сеть аптек «Здоровье»','Возим лекарства рефрижератором уже второй год. Температурные отчёты присылают после каждого рейса, ни одной претензии.','#c9e4ff'],
+ ['Игорь Петров','ИП Петров','Срочно нужно было отправить груз в Минск в пятницу вечером. Нашли машину за два часа, в понедельник утром всё было у клиента.','#ffd9c9'],
+ ['Елена Васильева','«Мебель Норд»','Отправляем сборные грузы по России. Удобно, что платим только за свои паллеты, и менеджер всегда на связи.','#e3d6ff'],
+ ['Сергей Морозов','ТК «Восток»','Перевозили негабарит — пресс на 28 тонн. Согласовали маршрут и сопровождение сами, нам осталось только принять груз.','#d6f74b'],
+ ['Ольга Никитина','Импортёр одежды','Работаем по направлению Китай — Москва. Сроки фиксированные, цена в договоре не менялась ни разу.','#c9e4ff']
+];
+cards.innerHTML=R.map((r,i)=>`<div class="card rv${i>2?' hide':''}"><div class="top"><span class="stars">★★★★★</span><span class="score">${i%3?'5.0':'4.9'}</span></div><p>«${r[2]}»</p><div class="who"><div class="ava" style="background:${r[3]}">${r[0].split(' ').map(s=>s[0]).join('')}</div><div><b>${r[0]}</b><span>${r[1]}</span></div></div></div>`).join('');
+moreR.onclick=()=>{cards.querySelectorAll('.hide').forEach(c=>{c.classList.remove('hide');setTimeout(()=>c.classList.add('in'),30)});moreR.remove()};
+
+// form
+
+// reveal + counters
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
+  const n=e.target.querySelector('[data-to]');if(n)count(n)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(el.closest('.hero')?i*.12+1.4:0)+'s';io.observe(el)});
+function count(el){const to=+el.dataset.to,s=el.querySelector('span'),t0=performance.now();
+  (function f(t){const p=Math.min((t-t0)/1600,1);s.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+
+// process line + active steps + active menu
+const secs=[...document.querySelectorAll('section[id]')],links=[...document.querySelectorAll('.menu a')];
+addEventListener('scroll',()=>{
+  const st=document.getElementById('steps'),r=st.getBoundingClientRect(),vh=innerHeight;
+  const p=Math.min(Math.max((vh*.6-r.top)/r.height,0),1);bar.style.height=(p*(r.height-20))+'px';
+  st.querySelectorAll('.step').forEach(s=>s.classList.toggle('act',s.getBoundingClientRect().top<vh*.6));
+  let cur='top';secs.forEach(s=>{if(s.getBoundingClientRect().top<160)cur=s.id});
+  links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+</script>
+</body>
+</html>

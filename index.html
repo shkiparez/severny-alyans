@@ -310,11 +310,11 @@ footer li a:hover{color:var(--lime)}
         <a href="#process">Как работаем</a>
         <a href="#reviews">Отзывы</a>
         <a href="#contacts">Контакты</a>
-        <a href="tel:+79993005414" class="m-only">☎ +7 999 300-54-14</a>
+        <a href="tel:+79993005414" class="m-only" data-tel="phone1" data-prefix="☎ ">☎ +7 999 300-54-14</a>
       </div>
       <div class="nav-r">
         <span class="lang">RU</span>
-        <a href="tel:+79993005414" class="btn btn-dark">+7 999 300-54-14</a>
+        <a href="tel:+79993005414" class="btn btn-dark" data-tel="phone1">+7 999 300-54-14</a>
         <button class="burger" id="burger" aria-label="Меню">☰</button>
       </div>
     </nav>
@@ -329,15 +329,11 @@ footer li a:hover{color:var(--lime)}
   </video>
   <div class="wrap">
     <div class="hero-box">
-      <div class="tag rv">Транспортная компания · Новосибирск</div>
-      <h1 class="rv">Доставка грузов <em>точно в срок</em> — от склада до двери</h1>
-      <p class="rv">Собственный автопарк, личный менеджер на связи и фиксированная дата доставки, прописанная в договоре.</p>
-      <div class="rv cta"><a href="https://wa.me/79993005414" target="_blank" rel="noopener" class="btn btn-lime"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg> Написать в WhatsApp</a><a href="#contacts" class="btn btn-ghost">Контакты</a></div>
-      <div class="hero-meta rv">
-        <div><b>48 ч</b><span>средний срок</span></div>
-        <div><b>120+</b><span>машин в парке</span></div>
-        <div><b>24/7</b><span>поддержка</span></div>
-      </div>
+      <div class="tag rv" data-t="hero.tag">Транспортная компания · Новосибирск</div>
+      <h1 class="rv"><span data-t="hero.title">Доставка грузов</span> <em data-t="hero.accent">точно в срок</em> <span data-t="hero.titleEnd">— от склада до двери</span></h1>
+      <p class="rv" data-t="hero.text">Собственный автопарк, личный менеджер на связи и фиксированная дата доставки, прописанная в договоре.</p>
+      <div class="rv cta"><a href="https://wa.me/79993005414" data-wa target="_blank" rel="noopener" class="btn btn-lime"><i class="wa-i"></i> Написать в WhatsApp</a><a href="#contacts" class="btn btn-ghost">Контакты</a></div>
+      <div class="hero-meta rv" id="heroMeta"></div>
     </div>
   </div>
   <div class="scroll-hint"></div>
@@ -348,7 +344,7 @@ footer li a:hover{color:var(--lime)}
   <div class="wrap">
     <div class="head rv">
       <h2>Страны,<br>куда мы везём</h2>
-      <p>Работаем по 8 направлениям. Растаможка, документы и страхование груза — на нашей стороне.</p>
+      <p id="countriesText"></p>
     </div>
     <div class="grid-c rv" id="flags"></div>
     <div class="more"><button class="btn btn-dark" id="moreC">Показать все</button></div>
@@ -360,7 +356,7 @@ footer li a:hover{color:var(--lime)}
   <div class="wrap">
     <div class="head rv">
       <h2>Что мы<br>перевозим</h2>
-      <p>Подбираем транспорт под тип груза: тент, рефрижератор, низкорамный трал или сборный груз.</p>
+      <p data-t="cargo.text"></p>
     </div>
     <div class="list rv" id="list"></div>
   </div>
@@ -370,11 +366,8 @@ footer li a:hover{color:var(--lime)}
 <section class="why">
   <div class="wrap">
     <h2 class="rv">Почему сроки соблюдаются</h2>
-    <p class="sub rv">Четыре причины, по которым дата в договоре — это реальная дата</p>
-    <div class="reason rv"><div class="num">01</div><div><h3>Собственный автопарк, без субподрядчиков</h3><p>Груз не передаётся третьим лицам. Мы сами отвечаем за машину, водителя и маршрут — от погрузки до выгрузки.</p></div></div>
-    <div class="reason rv"><div class="num">02</div><div><h3>Штатные водители</h3><p>Водители работают у нас годами, знают маршруты и пограничные переходы. Никаких случайных людей за рулём.</p></div></div>
-    <div class="reason rv"><div class="num">03</div><div><h3>Документы берём на себя</h3><p>CMR, декларации, сертификаты — готовим заранее, чтобы машина не простаивала на таможне.</p></div></div>
-    <div class="reason rv"><div class="num">04</div><div><h3>Личный менеджер на связи</h3><p>За каждым грузом закреплён менеджер. Он ответит в WhatsApp или по телефону и заранее предупредит о любых изменениях.</p></div></div>
+    <p class="sub rv" data-t="why.sub"></p>
+    <div id="reasons"></div>
   </div>
 </section>
 
@@ -383,20 +376,9 @@ footer li a:hover{color:var(--lime)}
   <div class="wrap">
     <div class="proc-grid">
       <h2 class="rv">Как проходит<br>процесс —<br><em>шаг за шагом</em></h2>
-      <div class="steps" id="steps">
-        <div class="bar" id="bar"></div>
-        <div class="step rv" data-n="1"><h3>Заявка</h3><p>Оставляете заявку на сайте или по телефону. Менеджер перезванивает, уточняет маршрут, вес и габариты.</p><span class="t">15 минут</span></div>
-        <div class="step rv" data-n="2"><h3>Расчёт и договор</h3><p>Считаем стоимость, фиксируем дату доставки и подписываем договор — цена не меняется в пути.</p><span class="t">1 день</span></div>
-        <div class="step rv" data-n="3"><h3>Погрузка</h3><p>Машина приезжает в согласованное время. Проверяем крепление груза и оформляем документы на месте.</p><span class="t">в день подачи</span></div>
-        <div class="step rv" data-n="4"><h3>Доставка</h3><p>Менеджер держит вас в курсе на каждом этапе. Получатель принимает груз, вы получаете закрывающие документы.</p><span class="t">точно в срок</span></div>
-      </div>
+      <div class="steps" id="steps"><div class="bar" id="bar"></div></div>
     </div>
-    <div class="stats">
-      <div class="stat rv"><div class="num" data-to="8"><span>0</span><i>+</i></div><p>лет на рынке грузоперевозок</p></div>
-      <div class="stat rv"><div class="num" data-to="36"><span>0</span></div><p>городов в регулярных маршрутах</p></div>
-      <div class="stat rv"><div class="num" data-to="12"><span>0</span><i>k</i></div><p>доставленных грузов</p></div>
-      <div class="stat rv"><div class="num" data-to="97"><span>0</span><i>%</i></div><p>доставок день в день по договору</p></div>
-    </div>
+    <div class="stats" id="stats"></div>
   </div>
 </section>
 
@@ -406,7 +388,7 @@ footer li a:hover{color:var(--lime)}
     <div class="wrap">
       <div class="head rv">
         <h2>Отзывы<br>клиентов</h2>
-        <p>Рейтинг 4,3 в 2ГИС — 39 оценок от наших клиентов.</p>
+        <p data-t="reviews.text"></p>
       </div>
       <div class="cards" id="cards"></div>
       <div class="more"><button class="btn btn-dark" id="moreR">Больше отзывов</button></div>
@@ -423,14 +405,14 @@ footer li a:hover{color:var(--lime)}
       <div class="ct-l">
         <div class="tag" style="color:#5c7a00">Контакты</div>
         <h2>Свяжитесь<br>с нами</h2>
-        <p>Рассчитаем стоимость и сроки перевозки. Быстрее всего ответим в WhatsApp.</p>
-        <a href="https://wa.me/79993005414" target="_blank" rel="noopener" class="btn btn-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg> Написать в WhatsApp</a>
+        <p data-t="contacts.intro"></p>
+        <a href="https://wa.me/79993005414" data-wa target="_blank" rel="noopener" class="btn btn-wa"><i class="wa-i"></i> Написать в WhatsApp</a>
       </div>
       <div class="ct-r">
-        <a class="ct-row" href="tel:+79993005414"><span>Телефон · WhatsApp</span><b>+7 999 300-54-14</b><i>Позвонить</i></a>
-        <a class="ct-row" href="tel:+79137775414"><span>Телефон</span><b>+7 913 777-54-14</b><i>Позвонить</i></a>
-        <a class="ct-row" href="https://2gis.ru/novosibirsk/search/%D0%A1%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%20%D0%90%D0%BB%D1%8C%D1%8F%D0%BD%D1%81" target="_blank" rel="noopener"><span>Адрес</span><b>Новосибирск, Кировский район, 630088</b><i>2ГИС →</i></a>
-        <div class="ct-row"><span>Режим работы</span><b>Ежедневно 09:00–18:00</b></div>
+        <a class="ct-row" href="tel:+79993005414" data-tel-href="phone1"><span>Телефон</span><b data-t="contacts.phone1"></b><i>Позвонить</i></a>
+        <a class="ct-row" href="tel:+79137775414" data-tel-href="phone2" id="row2"><span>Телефон</span><b data-t="contacts.phone2"></b><i>Позвонить</i></a>
+        <a class="ct-row" href="#" data-map target="_blank" rel="noopener"><span>Адрес</span><b data-t="contacts.address"></b><i>2ГИС →</i></a>
+        <div class="ct-row"><span>Режим работы</span><b data-t="contacts.hours"></b></div>
       </div>
     </div>
   </div>
@@ -441,37 +423,28 @@ footer li a:hover{color:var(--lime)}
     <div class="f-grid">
       <div>
         <div class="logo"><svg viewBox="0 0 40 40"><path d="M20 2 36 30H26L20 19 14 30H4Z" fill="#d6f74b"/><path d="M4 34h32v4H4z" fill="#fff"/></svg>Северный Альянс</div>
-        <p>Грузоперевозки из Новосибирска по России и странам СНГ в фиксированные сроки.</p>
-        <div class="soc"><a href="https://wa.me/79993005414" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg></a><a href="tel:+79993005414" aria-label="Позвонить">☎</a></div>
+        <p data-t="footer.about"></p>
+        <div class="soc"><a href="https://wa.me/79993005414" data-wa target="_blank" rel="noopener" aria-label="WhatsApp"><i class="wa-i"></i></a><a href="tel:+79993005414" data-tel-href="phone1" aria-label="Позвонить">☎</a></div>
       </div>
       <div><h4>Навигация</h4><ul><li><a href="#countries">География</a></li><li><a href="#cargo">Грузы</a></li><li><a href="#process">Как работаем</a></li><li><a href="#reviews">Отзывы</a></li><li><a href="#contacts">Контакты</a></li></ul></div>
-      <div><h4>Услуги</h4><ul><li>FTL перевозки</li><li>Сборные грузы</li><li>Рефрижератор</li><li>Негабарит</li></ul></div>
-      <div><h4>Контакты</h4><ul><li><a href="tel:+79993005414">+7 999 300-54-14</a></li><li><a href="tel:+79137775414">+7 913 777-54-14</a></li><li><a href="https://wa.me/79993005414" target="_blank" rel="noopener">WhatsApp</a></li><li>Новосибирск, Кировский р-н</li><li>09:00–18:00</li></ul></div>
+      <div><h4>Услуги</h4><ul id="services"></ul></div>
+      <div><h4>Контакты</h4><ul><li><a href="tel:+79993005414" data-tel="phone1"></a></li><li id="fPhone2"><a href="tel:+79137775414" data-tel="phone2"></a></li><li><a href="https://wa.me/79993005414" data-wa target="_blank" rel="noopener">WhatsApp</a></li><li data-t="contacts.addressShort"></li><li data-t="contacts.hours"></li></ul></div>
     </div>
     <div class="big">СЕВЕРНЫЙ АЛЬЯНС</div>
-    <div class="copy"><span>© 2026 Северный Альянс. Все права защищены.</span><span>Политика конфиденциальности</span></div>
+    <div class="copy"><span>© <span id="year">2026</span> Северный Альянс. Все права защищены.</span><span>Политика конфиденциальности</span></div>
   </div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/79993005414" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg></a>
+<a class="wa-float" href="https://wa.me/79993005414" data-wa target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><i class="wa-i"></i></a>
 
 <script>
-// preloader
-addEventListener('load',()=>setTimeout(()=>document.getElementById('pre').classList.add('hide'),900));
-setTimeout(()=>document.getElementById('pre').classList.add('hide'),2500);
+const WA_SVG='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .3-3.3-.7-2.8-1.2-4.6-4.1-4.7-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2Z"/></svg>';
+document.querySelectorAll('.wa-i').forEach(i=>i.outerHTML=WA_SVG);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const get=(o,p)=>p.split('.').reduce((a,k)=>a==null?a:a[k],o);
+const digits=s=>String(s||'').replace(/\D/g,'').replace(/^8(?=\d{10}$)/,'7');
 
-// burger
-burger.onclick=()=>nav.classList.toggle('open');
-// all in-page links: smooth scroll via JS (works on any host / preview)
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-  const id=a.getAttribute('href').slice(1),el=document.getElementById(id);
-  if(!el)return;e.preventDefault();nav.classList.remove('open');
-  const y=id==='top'?0:el.getBoundingClientRect().top+scrollY-90;
-  scrollTo({top:y,behavior:'smooth'});
-  try{history.replaceState(null,'','#'+id)}catch(_){}
-}));
-
-// flags (simplified SVG)
+// flags (simplified SVG); unknown country -> neutral flag
 const F={
  'Россия':'<rect width="3" height="2" fill="#fff"/><rect y=".667" width="3" height=".667" fill="#0039a6"/><rect y="1.333" width="3" height=".667" fill="#d52b1e"/>',
  'Беларусь':'<rect width="3" height="2" fill="#c8313e"/><rect y="1.333" width="3" height=".667" fill="#4aa657"/><rect width=".33" height="2" fill="#fff"/>',
@@ -484,58 +457,107 @@ const F={
  'Грузия':'<rect width="3" height="2" fill="#fff"/><rect x="1.3" width=".4" height="2" fill="#f00"/><rect y=".8" width="3" height=".4" fill="#f00"/>',
  'Монголия':'<rect width="3" height="2" fill="#0066b3"/><rect width="1" height="2" fill="#c4272f"/><rect x="2" width="1" height="2" fill="#c4272f"/>',
  'Азербайджан':'<rect width="3" height="2" fill="#00b5e2"/><rect y=".667" width="3" height=".667" fill="#ef3340"/><rect y="1.333" width="3" height=".667" fill="#509e2f"/>',
- 'Таджикистан':'<rect width="3" height="2" fill="#fff"/><rect width="3" height=".57" fill="#cc0000"/><rect y="1.43" width="3" height=".57" fill="#006600"/>'
+ 'Таджикистан':'<rect width="3" height="2" fill="#fff"/><rect width="3" height=".57" fill="#cc0000"/><rect y="1.43" width="3" height=".57" fill="#006600"/>',
+ 'Туркменистан':'<rect width="3" height="2" fill="#00843d"/><rect x=".4" width=".5" height="2" fill="#d22630"/>',
+ 'Молдова':'<rect width="3" height="2" fill="#ffd200"/><rect width="1" height="2" fill="#0046ae"/><rect x="2" width="1" height="2" fill="#cc092f"/>',
+ 'Иран':'<rect width="3" height="2" fill="#fff"/><rect width="3" height=".667" fill="#239f40"/><rect y="1.333" width="3" height=".667" fill="#da0000"/>',
+ 'Корея':'<rect width="3" height="2" fill="#fff"/><circle cx="1.5" cy="1" r=".5" fill="#cd2e3a"/><path d="M1 1a.5.5 0 0 0 1 0z" fill="#0047a0"/>',
+ 'Вьетнам':'<rect width="3" height="2" fill="#da251d"/><path d="M1.5 .45l.16.5h.52l-.42.3.16.5-.42-.31-.42.31.16-.5-.42-.3h.52z" fill="#ff0"/>'
 };
-const days={'Россия':'1–5 дней','Беларусь':'2–3 дня','Казахстан':'3–6 дней','Узбекистан':'6–9 дней','Кыргызстан':'6–8 дней','Армения':'5–7 дней','Китай':'12–18 дней','Турция':'7–10 дней','Грузия':'5–7 дней','Монголия':'9–12 дней','Азербайджан':'6–8 дней','Таджикистан':'7–10 дней'};
-const names=Object.keys(F);
-const fl=document.getElementById('flags');
-const drawFlags=n=>{fl.innerHTML=names.slice(0,n).map(k=>`<div class="cell"><svg viewBox="0 0 3 2" preserveAspectRatio="none">${F[k]}</svg><span>${k}</span><small>${days[k]}</small></div>`).join('')};
-drawFlags(8);
-moreC.onclick=()=>{const all=fl.children.length>8;drawFlags(all?8:12);moreC.textContent=all?'Показать все':'Свернуть'};
+const flagSvg=n=>F[n]||`<rect width="3" height="2" fill="#e6e7e3"/><text x="1.5" y="1.22" font-size=".62" text-anchor="middle" fill="#7b7f86" font-family="Inter,sans-serif" font-weight="700">${esc(String(n).slice(0,2).toUpperCase())}</text>`;
+const AVA=['#d6f74b','#c9e4ff','#ffd9c9','#e3d6ff'];
 
-// cargo accordion
-const C=[
- ['Стандартный груз','Паллеты, коробки, оборудование','Тентованные фуры 82–120 м³ до 20 тонн. Подходит для товаров народного потребления, стройматериалов, оборудования в упаковке.'],
- ['Продукты и фармацевтика','Рефрижератор от −20 до +25 °C','Рефрижераторы с непрерывной записью температуры. Сертифицированы для перевозки лекарств и продуктов питания.'],
- ['Негабаритный груз','Спецтехника, конструкции','Низкорамные тралы, согласование маршрута, сопровождение и разрешения на перевозку тяжеловесов.'],
- ['Опасный груз','ADR классы 2–9','Водители с допуском ADR, специально оборудованные машины и полный пакет документов.'],
- ['Сборный груз','От 1 паллеты','Платите только за занятое место. Консолидируем грузы на складе и отправляем регулярными рейсами.']
-];
-list.innerHTML=C.map((c,i)=>`<div class="item"><button><span class="n">0${i+1}</span><h3>${c[0]}</h3><span class="hint">${c[1]}</span><span class="pl">+</span></button><div class="body"><div><p>${c[2]}</p></div></div></div>`).join('');
-list.querySelectorAll('.item').forEach(it=>it.querySelector('button').onclick=()=>{
-  const o=it.classList.contains('open');list.querySelectorAll('.item').forEach(x=>x.classList.remove('open'));if(!o)it.classList.add('open')});
-list.firstElementChild.classList.add('open');
+function render(D){
+  // simple texts
+  document.querySelectorAll('[data-t]').forEach(el=>{const v=get(D,el.dataset.t);if(v!=null)el.textContent=v});
+  const c=D.contacts||{};
+  const wa='https://wa.me/'+digits(c.whatsapp||c.phone1);
+  document.querySelectorAll('[data-wa]').forEach(a=>a.href=wa);
+  document.querySelectorAll('[data-tel]').forEach(a=>{const v=c[a.dataset.tel];a.href='tel:+'+digits(v);a.textContent=(a.dataset.prefix||'')+(v||'')});
+  document.querySelectorAll('[data-tel-href]').forEach(a=>a.href='tel:+'+digits(c[a.dataset.telHref]));
+  document.querySelectorAll('[data-map]').forEach(a=>a.href=c.mapLink||'#');
+  const has2=!!(c.phone2||'').trim();row2.style.display=has2?'':'none';fPhone2.style.display=has2?'':'none';
+  const sameWa=digits(c.whatsapp)===digits(c.phone1);
+  document.querySelector('[data-tel-href="phone1"] span').textContent=sameWa?'Телефон · WhatsApp':'Телефон';
+  year.textContent=new Date().getFullYear();
 
-// reviews
-const R=[
- ['Андрей Ковалёв','ООО «СтройТех»','Перевозили оборудование в Казахстан. Машина пришла день в день, документы готовы заранее — на границе простояли меньше часа.','#d6f74b'],
- ['Марина Соколова','Сеть аптек «Здоровье»','Возим лекарства рефрижератором уже второй год. Температурные отчёты присылают после каждого рейса, ни одной претензии.','#c9e4ff'],
- ['Игорь Петров','ИП Петров','Срочно нужно было отправить груз в Минск в пятницу вечером. Нашли машину за два часа, в понедельник утром всё было у клиента.','#ffd9c9'],
- ['Елена Васильева','«Мебель Норд»','Отправляем сборные грузы по России. Удобно, что платим только за свои паллеты, и менеджер всегда на связи.','#e3d6ff'],
- ['Сергей Морозов','ТК «Восток»','Перевозили негабарит — пресс на 28 тонн. Согласовали маршрут и сопровождение сами, нам осталось только принять груз.','#d6f74b'],
- ['Ольга Никитина','Импортёр одежды','Работаем по направлению Китай — Москва. Сроки фиксированные, цена в договоре не менялась ни разу.','#c9e4ff']
-];
-cards.innerHTML=R.map((r,i)=>`<div class="card rv${i>2?' hide':''}"><div class="top"><span class="stars">★★★★★</span><span class="score">${i%3?'5.0':'4.9'}</span></div><p>«${r[2]}»</p><div class="who"><div class="ava" style="background:${r[3]}">${r[0].split(' ').map(s=>s[0]).join('')}</div><div><b>${r[0]}</b><span>${r[1]}</span></div></div></div>`).join('');
-moreR.onclick=()=>{cards.querySelectorAll('.hide').forEach(c=>{c.classList.remove('hide');setTimeout(()=>c.classList.add('in'),30)});moreR.remove()};
+  heroMeta.innerHTML=(get(D,'hero.meta')||[]).map(m=>`<div><b>${esc(m.value)}</b><span>${esc(m.label)}</span></div>`).join('');
 
-// form
+  // countries
+  const C=get(D,'countries.items')||[];
+  countriesText.textContent=`Работаем по ${C.length} направлениям. `+(get(D,'countries.text')||'');
+  let allC=false;
+  const drawFlags=()=>{flags.innerHTML=C.slice(0,allC?C.length:8).map(k=>`<div class="cell"><svg viewBox="0 0 3 2" preserveAspectRatio="none">${flagSvg(k.name)}</svg><span>${esc(k.name)}</span><small>${esc(k.days)}</small></div>`).join('')};
+  drawFlags();
+  moreC.parentElement.style.display=C.length>8?'':'none';
+  moreC.onclick=()=>{allC=!allC;drawFlags();moreC.textContent=allC?'Свернуть':'Показать все'};
 
-// reveal + counters
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
-  const n=e.target.querySelector('[data-to]');if(n)count(n)}}),{threshold:.15});
-document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(el.closest('.hero')?i*.12+1.4:0)+'s';io.observe(el)});
-function count(el){const to=+el.dataset.to,s=el.querySelector('span'),t0=performance.now();
-  (function f(t){const p=Math.min((t-t0)/1600,1);s.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+  // cargo accordion
+  const G=get(D,'cargo.items')||[];
+  list.innerHTML=G.map((g,i)=>`<div class="item${i?'':' open'}"><button><span class="n">${String(i+1).padStart(2,'0')}</span><h3>${esc(g.title)}</h3><span class="hint">${esc(g.hint)}</span><span class="pl">+</span></button><div class="body"><div><p>${esc(g.text)}</p></div></div></div>`).join('');
+  list.querySelectorAll('.item').forEach(it=>it.querySelector('button').onclick=()=>{
+    const o=it.classList.contains('open');list.querySelectorAll('.item').forEach(x=>x.classList.remove('open'));if(!o)it.classList.add('open')});
 
-// process line + active steps + active menu
-const secs=[...document.querySelectorAll('section[id]')],links=[...document.querySelectorAll('.menu a')];
-addEventListener('scroll',()=>{
-  const st=document.getElementById('steps'),r=st.getBoundingClientRect(),vh=innerHeight;
-  const p=Math.min(Math.max((vh*.6-r.top)/r.height,0),1);bar.style.height=(p*(r.height-20))+'px';
-  st.querySelectorAll('.step').forEach(s=>s.classList.toggle('act',s.getBoundingClientRect().top<vh*.6));
-  let cur='top';secs.forEach(s=>{if(s.getBoundingClientRect().top<160)cur=s.id});
-  links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
-},{passive:true});
+  // why
+  reasons.innerHTML=(get(D,'why.items')||[]).map((r,i)=>`<div class="reason rv"><div class="num">${String(i+1).padStart(2,'0')}</div><div><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></div></div>`).join('');
+
+  // process steps
+  steps.innerHTML='<div class="bar" id="bar"></div>'+(D.process||[]).map((s,i)=>`<div class="step rv" data-n="${i+1}"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>${s.time?`<span class="t">${esc(s.time)}</span>`:''}</div>`).join('');
+
+  // stats
+  stats.innerHTML=(D.stats||[]).map(s=>{const n=parseFloat(String(s.value).replace(',','.'));
+    return `<div class="stat rv"><div class="num"${isFinite(n)?` data-to="${n}"`:''}><span>${isFinite(n)?0:esc(s.value)}</span>${s.suffix?`<i>${esc(s.suffix)}</i>`:''}</div><p>${esc(s.label)}</p></div>`}).join('');
+
+  // reviews
+  const R=get(D,'reviews.items')||[];
+  cards.innerHTML=R.map((r,i)=>{const sc=Math.max(0,Math.min(5,parseFloat(String(r.score||5).replace(',','.'))||5));
+    const ini=String(r.name||'?').trim().split(/\s+/).slice(0,2).map(s=>s[0]).join('').toUpperCase();
+    return `<div class="card rv${i>2?' hide':''}"><div class="top"><span class="stars">${'★'.repeat(Math.round(sc))}${'☆'.repeat(5-Math.round(sc))}</span><span class="score">${sc.toFixed(1)}</span></div><p>«${esc(r.text)}»</p><div class="who"><div class="ava" style="background:${AVA[i%4]}">${esc(ini)}</div><div><b>${esc(r.name)}</b><span>${esc(r.company)}</span></div></div></div>`}).join('');
+  moreR.parentElement.style.display=R.length>3?'':'none';
+  moreR.onclick=()=>{cards.querySelectorAll('.hide').forEach(c=>{c.classList.remove('hide');setTimeout(()=>c.classList.add('in'),30)});moreR.parentElement.style.display='none'};
+  document.getElementById('reviews').style.display=R.length?'':'none';
+
+  services.innerHTML=(get(D,'footer.services')||[]).map(s=>`<li>${esc(s)}</li>`).join('');
+}
+
+function start(){
+  // reveal + counters
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
+    const n=e.target.querySelector('[data-to]');if(n)count(n)}}),{threshold:.15});
+  document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(el.closest('.hero')?i*.12+1.4:0)+'s';io.observe(el)});
+  function count(el){const to=+el.dataset.to,s=el.querySelector('span'),t0=performance.now(),dec=String(to).includes('.')?1:0;
+    (function f(t){const p=Math.min((t-t0)/1600,1);s.textContent=(to*(1-Math.pow(1-p,3))).toFixed(dec);if(p<1)requestAnimationFrame(f)})(t0)}
+
+  // process line + active steps + active menu
+  const secs=[...document.querySelectorAll('section[id]')],links=[...document.querySelectorAll('.menu a')];
+  const onScroll=()=>{
+    const st=document.getElementById('steps'),r=st.getBoundingClientRect(),vh=innerHeight,bar=document.getElementById('bar');
+    const p=Math.min(Math.max((vh*.6-r.top)/r.height,0),1);bar.style.height=(p*(r.height-20))+'px';
+    st.querySelectorAll('.step').forEach(s=>s.classList.toggle('act',s.getBoundingClientRect().top<vh*.6));
+    let cur='top';secs.forEach(s=>{if(s.getBoundingClientRect().top<160)cur=s.id});
+    links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+  };
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+// burger + in-page links (smooth scroll via JS, works on any host)
+burger.onclick=()=>nav.classList.toggle('open');
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const id=a.getAttribute('href').slice(1),el=document.getElementById(id);
+  if(!el)return;e.preventDefault();nav.classList.remove('open');
+  const y=id==='top'?0:el.getBoundingClientRect().top+scrollY-90;
+  scrollTo({top:y,behavior:'smooth'});
+  try{history.replaceState(null,'','#'+id)}catch(_){}
+}));
+
+// load content.json (always fresh), then render
+const hidePre=()=>document.getElementById('pre').classList.add('hide');
+let loaded=false,minDelay=new Promise(r=>setTimeout(r,900));
+fetch('content.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()})
+  .then(D=>{render(D);loaded=true})
+  .catch(e=>console.warn('content.json не загрузился',e))
+  .finally(()=>{start();minDelay.then(hidePre)});
+setTimeout(hidePre,4000);
 </script>
 </body>
 </html>

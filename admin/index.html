@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Админка — Северный Альянс</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#d6f74b;--ink:#0d0e10;--ink-3:#22252a;--paper:#fff;--paper-2:#f4f5f1;--muted:#7b7f86;--line:#e6e7e3;--red:#d9342b;--green:#1f9d55}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.5 Inter,system-ui,sans-serif;background:var(--paper-2);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+h1,h2,.logo{font-family:Unbounded,Inter,sans-serif;letter-spacing:-.02em}
+button{font:inherit;cursor:pointer}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;text-transform:uppercase}
+.logo svg{width:24px;height:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:600;font-size:14px;transition:.2s;text-decoration:none;white-space:nowrap}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:var(--ink-3)}
+.btn-lime{background:var(--lime);color:var(--ink)}.btn-lime:hover{filter:brightness(.95)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{border-color:#c9ccc4}
+.btn:disabled{opacity:.5;cursor:default}
+input,textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none;transition:.15s}
+input:focus,textarea:focus{border-color:var(--ink)}
+textarea{min-height:84px;resize:vertical}
+label.f{display:block;margin-bottom:14px}
+label.f>span{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:16px}
+.lcard{width:100%;max-width:420px;background:#fff;border-radius:24px;padding:36px 28px;box-shadow:0 20px 60px rgba(0,0,0,.08)}
+.lcard h1{font-size:24px;margin:22px 0 6px}
+.lcard p{color:var(--muted);font-size:14px;margin-bottom:22px}
+.lcard .btn{width:100%;margin-top:6px;padding:15px}
+.chk{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0 14px}
+.chk input{width:auto}
+.err{color:var(--red);font-size:13px;margin-top:12px;min-height:18px}
+details.help{margin-top:18px;font-size:13px;color:var(--muted)}
+details.help summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details.help ol{padding-left:18px;margin-top:8px;display:grid;gap:4px}
+
+/* app */
+#app{display:none}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
+.top .sp{flex:1}
+.status{font-size:13px;color:var(--muted);text-align:right}
+.status.ok{color:var(--green)}.status.bad{color:var(--red)}.status.dirty{color:#b07800}
+.layout{max-width:1180px;margin:0 auto;padding:24px 20px 120px;display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:start}
+.side{position:sticky;top:84px;display:flex;flex-direction:column;gap:4px}
+.side a{padding:10px 14px;border-radius:12px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14px}
+.side a:hover{background:#fff}
+.side a.on{background:var(--ink);color:#fff}
+.sec{background:#fff;border-radius:20px;padding:26px;margin-bottom:22px;scroll-margin-top:84px}
+.sec h2{font-size:18px;margin-bottom:4px}
+.sec>.note{color:var(--muted);font-size:13px;margin-bottom:18px}
+.list{margin-top:8px}
+.list>h3{font-size:14px;font-weight:600;margin:16px 0 10px}
+.row{border:1px solid var(--line);border-radius:16px;padding:16px 16px 4px;margin-bottom:12px;background:var(--paper-2)}
+.row-h{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.row-h b{flex:1;font-size:13px}
+.ic{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;font-size:14px}
+.ic:hover{border-color:var(--ink)}
+.ic.del:hover{border-color:var(--red);color:var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.add{width:100%;border:1.5px dashed #c9ccc4;background:none;border-radius:14px;padding:12px;font-weight:600;color:var(--ink)}
+.add:hover{border-color:var(--ink)}
+.str{display:flex;gap:8px;margin-bottom:8px}
+.str input{flex:1}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:#fff;padding:14px 20px;border-radius:14px;font-size:14px;transition:.3s;z-index:50;max-width:calc(100vw - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.savebar{display:none}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;padding:16px 12px 110px;gap:14px}
+  .side{position:sticky;top:61px;z-index:10;flex-direction:row;overflow-x:auto;background:var(--paper-2);padding:8px 0;margin:0 -12px;padding-left:12px;scrollbar-width:none}
+  .side::-webkit-scrollbar{display:none}
+  .side a{flex:none;background:#fff}
+  .sec{padding:20px 16px;border-radius:18px;scroll-margin-top:130px}
+  .grid2{grid-template-columns:1fr}
+  .top-in{padding:10px 12px}
+  .top .logo span{display:none}
+  .top #saveTop,.top #siteLink{display:none}
+  .status{font-size:12px}
+  .savebar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;gap:8px;padding:12px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+  .savebar .btn{flex:1;padding:15px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <form class="lcard" id="loginForm">
+    <div class="logo"><svg viewBox="0 0 40 40"><path d="M20 2 36 30H26L20 19 14 30H4Z" fill="#0d0e10"/><path d="M4 34h32v4H4z" fill="#b5d62a"/></svg>Северный Альянс</div>
+    <h1>Вход в админку</h1>
+    <p>Здесь можно менять тексты, контакты, страны и отзывы на сайте.</p>
+    <label class="f"><span>Ключ доступа</span><input type="password" id="token" autocomplete="current-password" placeholder="github_pat_…" required></label>
+    <label class="chk"><input type="checkbox" id="remember" checked> Запомнить на этом устройстве</label>
+    <button class="btn btn-dark" id="loginBtn">Войти</button>
+    <div class="err" id="loginErr"></div>
+    <details class="help">
+      <summary>Где взять ключ?</summary>
+      <ol>
+        <li>Ключ выдаёт разработчик сайта.</li>
+        <li>Храните его как пароль и никому не пересылайте.</li>
+        <li>Если ключ потерялся или истёк — попросите новый.</li>
+      </ol>
+    </details>
+  </form>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="top"><div class="top-in">
+    <div class="logo"><svg viewBox="0 0 40 40"><path d="M20 2 36 30H26L20 19 14 30H4Z" fill="#0d0e10"/><path d="M4 34h32v4H4z" fill="#b5d62a"/></svg><span>Админка</span></div>
+    <div class="sp"></div>
+    <div class="status" id="status">Загрузка…</div>
+    <a class="btn btn-ghost" id="siteLink" target="_blank" rel="noopener">Открыть сайт ↗</a>
+    <button class="btn btn-lime" id="saveTop" disabled>Сохранить</button>
+    <button class="ic" id="logout" title="Выйти">⎋</button>
+  </div></div>
+  <div class="layout">
+    <nav class="side" id="side"></nav>
+    <main id="editor"></main>
+  </div>
+  <div class="savebar"><a class="btn btn-ghost" id="siteLink2" target="_blank" rel="noopener">Сайт ↗</a><button class="btn btn-lime" id="saveBottom" disabled>Сохранить</button></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const REPO='shkiparez/severny-alyans', BRANCH='main', FILE='content.json';
+const SITE=new URL('../',location.href).href;
+const API='https://api.github.com/repos/'+REPO;
+
+// Описание полей админки: [ключ, подпись, тип?, подсказка?]
+const SCHEMA=[
+ {key:'hero',title:'Главный экран',fields:[
+   ['tag','Надпись над заголовком'],
+   ['title','Заголовок — начало'],['accent','Заголовок — часть, выделенная зелёным'],['titleEnd','Заголовок — окончание'],
+   ['text','Описание под заголовком','area']],
+  lists:[{key:'meta',title:'Цифры под кнопками',label:'Цифра',item:[['value','Значение','','например: 48 ч'],['label','Подпись']]}]},
+ {key:'contacts',title:'Контакты',fields:[
+   ['phone1','Основной телефон','','Показывается в шапке сайта'],
+   ['phone2','Второй телефон','','Можно оставить пустым — строка скроется'],
+   ['whatsapp','Номер WhatsApp','','На него ведут все кнопки WhatsApp'],
+   ['address','Адрес полностью'],['addressShort','Адрес коротко (для подвала)'],
+   ['hours','Режим работы'],
+   ['mapLink','Ссылка на карту (2ГИС или Яндекс)'],
+   ['intro','Текст в блоке «Свяжитесь с нами»','area']]},
+ {key:'countries',title:'Страны',note:'Флаг подбирается автоматически по названию страны. Первые 8 видны сразу, остальные — по кнопке «Показать все».',
+  fields:[['text','Текст под заголовком','area','Перед ним автоматически пишется «Работаем по N направлениям.»']],
+  lists:[{key:'items',title:'Список стран',label:'Страна',item:[['name','Страна'],['days','Срок доставки']]}]},
+ {key:'cargo',title:'Что перевозим',fields:[['text','Текст под заголовком','area']],
+  lists:[{key:'items',title:'Типы грузов',label:'Груз',item:[['title','Название'],['hint','Короткая подпись справа'],['text','Описание (раскрывается по клику)','area']]}]},
+ {key:'why',title:'Почему сроки соблюдаются',fields:[['sub','Подзаголовок']],
+  lists:[{key:'items',title:'Причины',label:'Причина',item:[['title','Заголовок'],['text','Текст','area']]}]},
+ {key:'process',title:'Шаги работы',root:{label:'Шаг',item:[['title','Название шага'],['text','Описание','area'],['time','Срок (зелёная плашка)']]}},
+ {key:'stats',title:'Цифры компании',note:'Числа на сайте красиво «досчитываются» при прокрутке.',root:{label:'Цифра',item:[['value','Число','','только цифры, например 36'],['suffix','Знак после числа','','например: + или % или k'],['label','Подпись','area']]}},
+ {key:'reviews',title:'Отзывы',note:'Первые 3 отзыва видны сразу, остальные — по кнопке «Больше отзывов». Если удалить все отзывы, блок скроется.',
+  fields:[['text','Текст под заголовком (рейтинг)']],
+  lists:[{key:'items',title:'Отзывы клиентов',label:'Отзыв',item:[['name','Имя'],['company','Компания / подпись'],['score','Оценка от 1 до 5'],['text','Текст отзыва','area']]}]},
+ {key:'footer',title:'Подвал',fields:[['about','Текст под логотипом','area']],
+  lists:[{key:'services',title:'Услуги',strings:true,label:'Услуга'}]}
+];
+
+let token='', data=null, sha=null, saved='', busy=false;
+const $=id=>document.getElementById(id);
+const toast=(m,ms=3200)=>{const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),ms)};
+const setStatus=(m,c='')=>{const s=$('status');s.textContent=m;s.className='status '+c};
+const isDirty=()=>data&&JSON.stringify(data)!==saved;
+const syncDirty=()=>{const d=isDirty();$('saveTop').disabled=$('saveBottom').disabled=!d||busy;if(!busy)setStatus(d?'Есть несохранённые изменения':'Все изменения сохранены',d?'dirty':'ok')};
+
+const b64dec=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,'')),c=>c.charCodeAt(0)));
+const b64enc=s=>{const b=new TextEncoder().encode(s);let r='';for(let i=0;i<b.length;i+=0x8000)r+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(r)};
+const gh=(path,opt={})=>fetch(API+path,{...opt,headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});
+
+// ---------- login ----------
+async function login(t,silent){
+  token=t.trim();$('loginErr').textContent='';$('loginBtn').disabled=true;$('loginBtn').textContent='Проверяем…';
+  try{
+    const r=await gh('');
+    if(r.status===401||r.status===403)throw new Error('Ключ не подошёл. Проверьте, что он скопирован целиком.');
+    if(r.status===404)throw new Error('У ключа нет доступа к сайту. Попросите разработчика выдать новый.');
+    if(!r.ok)throw new Error('GitHub не отвечает ('+r.status+'). Попробуйте позже.');
+    const repo=await r.json();
+    if(repo.permissions&&!repo.permissions.push)throw new Error('Ключ только для чтения — сохранять изменения с ним нельзя.');
+    try{ if($('remember').checked)localStorage.setItem('sa_token',token); else localStorage.removeItem('sa_token') }catch(_){}
+    $('login').style.display='none';$('app').style.display='block';
+    await load();
+  }catch(e){
+    token='';if(silent){try{localStorage.removeItem('sa_token')}catch(_){}}
+    $('loginErr').textContent=e.message||'Не удалось войти. Проверьте интернет.';
+  }finally{$('loginBtn').disabled=false;$('loginBtn').textContent='Войти'}
+}
+$('loginForm').onsubmit=e=>{e.preventDefault();login($('token').value)};
+$('logout').onclick=()=>{if(isDirty()&&!confirm('Есть несохранённые изменения. Всё равно выйти?'))return;try{localStorage.removeItem('sa_token')}catch(_){}location.reload()};
+
+// ---------- load / save ----------
+async function load(){
+  setStatus('Загружаем содержимое сайта…');
+  const r=await gh('/contents/'+FILE+'?ref='+BRANCH+'&t='+Date.now());
+  if(!r.ok){setStatus('Не удалось загрузить ('+r.status+')','bad');return}
+  const j=await r.json();sha=j.sha;data=JSON.parse(b64dec(j.content));saved=JSON.stringify(data);
+  build();syncDirty();
+}
+async function save(){
+  if(busy||!isDirty())return;
+  busy=true;syncDirty();setStatus('Сохраняем…');
+  try{
+    const body={message:'Правки через админку',content:b64enc(JSON.stringify(data,null,2)+'\n'),sha,branch:BRANCH};
+    const r=await gh('/contents/'+FILE,{method:'PUT',body:JSON.stringify(body)});
+    if(r.status===409||r.status===422)throw new Error('conflict');
+    if(r.status===401||r.status===403)throw new Error('Ключ больше не действует. Войдите заново.');
+    if(!r.ok)throw new Error('Ошибка сохранения ('+r.status+')');
+    const j=await r.json();sha=j.content.sha;saved=JSON.stringify(data);
+    busy=false;syncDirty();setStatus('Сохранено. Сайт обновится через 1–2 минуты','ok');
+    toast('Сохранено ✓ Изменения появятся на сайте через 1–2 минуты',5000);
+    waitLive(saved);
+  }catch(e){
+    busy=false;syncDirty();
+    if(e.message==='conflict'){setStatus('Файл изменили в другом месте','bad');
+      if(confirm('Содержимое сайта изменилось в другом окне или на другом устройстве. Загрузить свежую версию? Ваши несохранённые правки пропадут.'))load();}
+    else{setStatus(e.message,'bad');toast(e.message)}
+  }
+}
+// Ждём, пока GitHub Pages опубликует новую версию
+async function waitLive(expect){
+  for(let i=0;i<24;i++){
+    await new Promise(r=>setTimeout(r,10000));
+    if(saved!==expect)return;
+    try{const r=await fetch(SITE+FILE+'?t='+Date.now(),{cache:'no-store'});if(r.ok&&JSON.stringify(await r.json())===expect){if(!isDirty())setStatus('Опубликовано на сайте ✓','ok');toast('Изменения уже на сайте ✓');return}}catch(_){}
+  }
+}
+$('saveTop').onclick=$('saveBottom').onclick=save;
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save()}});
+addEventListener('beforeunload',e=>{if(isDirty()){e.preventDefault();e.returnValue=''}});
+
+// ---------- editor ----------
+function field(obj,[k,label,type,hint]){
+  const l=document.createElement('label');l.className='f';
+  l.innerHTML='<span></span>';l.firstChild.textContent=label;
+  const inp=document.createElement(type==='area'?'textarea':'input');
+  inp.value=obj[k]??'';inp.oninput=()=>{obj[k]=inp.value;syncDirty()};
+  l.appendChild(inp);
+  if(hint){const h=document.createElement('div');h.className='hint';h.textContent=hint;l.appendChild(h)}
+  return l;
+}
+function listEditor(arr,def,title,onChange){
+  const box=document.createElement('div');box.className='list';
+  const draw=()=>{
+    box.innerHTML='';
+    if(title){const h=document.createElement('h3');h.textContent=title+' ('+arr.length+')';box.appendChild(h)}
+    arr.forEach((it,i)=>{
+      if(def.strings){
+        const r=document.createElement('div');r.className='str';
+        const inp=document.createElement('input');inp.value=it;inp.oninput=()=>{arr[i]=inp.value;syncDirty()};
+        r.appendChild(inp);r.append(...ctrls(i));box.appendChild(r);return;
+      }
+      const r=document.createElement('div');r.className='row';
+      const h=document.createElement('div');h.className='row-h';
+      const b=document.createElement('b');b.textContent=def.label+' '+(i+1);h.appendChild(b);h.append(...ctrls(i));
+      r.appendChild(h);
+      const g=document.createElement('div');g.className=def.item.length>2?'':'grid2';
+      def.item.forEach(f=>g.appendChild(field(it,f)));r.appendChild(g);box.appendChild(r);
+    });
+    const add=document.createElement('button');add.type='button';add.className='add';add.textContent='+ Добавить: '+def.label.toLowerCase();
+    add.onclick=()=>{arr.push(def.strings?'':Object.fromEntries(def.item.map(f=>[f[0],'']))) ;draw();syncDirty();
+      const last=box.querySelectorAll('input,textarea');const el=def.strings?box.querySelectorAll('.str input'):box.querySelectorAll('.row:last-of-type input');(el[el.length-1]||last[0])?.focus()};
+    box.appendChild(add);
+  };
+  const ctrls=i=>{
+    const mk=(t,tt,fn,cls='')=>{const b=document.createElement('button');b.type='button';b.className='ic '+cls;b.textContent=t;b.title=tt;b.onclick=fn;return b};
+    return [
+      mk('↑','Выше',()=>{if(i>0){[arr[i-1],arr[i]]=[arr[i],arr[i-1]];draw();syncDirty()}}),
+      mk('↓','Ниже',()=>{if(i<arr.length-1){[arr[i+1],arr[i]]=[arr[i],arr[i+1]];draw();syncDirty()}}),
+      mk('✕','Удалить',()=>{const it=arr[i];const name=def.strings?it:(it.name||it.title||it.value||'');
+        if(confirm('Удалить «'+(name||def.label+' '+(i+1))+'»?')){arr.splice(i,1);draw();syncDirty()}},'del')
+    ];
+  };
+  draw();return box;
+}
+function build(){
+  const ed=$('editor'),side=$('side');ed.innerHTML='';side.innerHTML='';
+  SCHEMA.forEach((s,si)=>{
+    const sec=document.createElement('section');sec.className='sec';sec.id='s-'+s.key;
+    const h=document.createElement('h2');h.textContent=s.title;sec.appendChild(h);
+    const n=document.createElement('div');n.className='note';n.textContent=s.note||'';sec.appendChild(n);
+    if(s.root){ if(!Array.isArray(data[s.key]))data[s.key]=[]; sec.appendChild(listEditor(data[s.key],s.root,'')); }
+    else{
+      data[s.key]=data[s.key]||{};const obj=data[s.key];
+      (s.fields||[]).forEach(f=>sec.appendChild(field(obj,f)));
+      (s.lists||[]).forEach(L=>{if(!Array.isArray(obj[L.key]))obj[L.key]=[];sec.appendChild(listEditor(obj[L.key],L,L.title))});
+    }
+    ed.appendChild(sec);
+    const a=document.createElement('a');a.href='#s-'+s.key;a.textContent=s.title;if(!si)a.className='on';
+    a.onclick=e=>{e.preventDefault();sec.scrollIntoView({behavior:'smooth'})};side.appendChild(a);
+  });
+  saved=saved||JSON.stringify(data);
+  const links=[...side.children];
+  addEventListener('scroll',()=>{let cur=0;SCHEMA.forEach((s,i)=>{if($('s-'+s.key).getBoundingClientRect().top<200)cur=i});
+    links.forEach((a,i)=>{const was=a.classList.contains('on');a.classList.toggle('on',i===cur);
+      if(i===cur&&!was&&innerWidth<=860)side.scrollTo({left:a.offsetLeft-12,behavior:'smooth'})})},{passive:true});
+}
+
+$('siteLink').href=$('siteLink2').href=SITE;
+try{const t=localStorage.getItem('sa_token');if(t){$('token').value=t;login(t,true)}}catch(_){}
+</script>
+</body>
+</html>

@@ -96,16 +96,22 @@ details.help ol{padding-left:18px;margin-top:8px;display:grid;gap:4px}
     <div class="logo"><svg viewBox="0 0 40 40"><path d="M20 2 36 30H26L20 19 14 30H4Z" fill="#0d0e10"/><path d="M4 34h32v4H4z" fill="#b5d62a"/></svg>Северный Альянс</div>
     <h1>Вход в админку</h1>
     <p>Здесь можно менять тексты, контакты, страны и отзывы на сайте.</p>
-    <label class="f"><span>Ключ доступа</span><input type="password" id="token" autocomplete="current-password" placeholder="github_pat_…" required></label>
+    <div id="pwMode">
+      <label class="f"><span>Логин</span><input id="login_" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+      <label class="f"><span>Пароль</span><input type="password" id="password" autocomplete="current-password"></label>
+    </div>
+    <div id="tokMode" style="display:none">
+      <label class="f"><span>Ключ доступа GitHub</span><input type="password" id="token" autocomplete="off" placeholder="github_pat_…"></label>
+    </div>
     <label class="chk"><input type="checkbox" id="remember" checked> Запомнить на этом устройстве</label>
     <button class="btn btn-dark" id="loginBtn">Войти</button>
     <div class="err" id="loginErr"></div>
     <details class="help">
-      <summary>Где взять ключ?</summary>
+      <summary>Забыли пароль?</summary>
       <ol>
-        <li>Ключ выдаёт разработчик сайта.</li>
-        <li>Храните его как пароль и никому не пересылайте.</li>
-        <li>Если ключ потерялся или истёк — попросите новый.</li>
+        <li>Логин и пароль выдаёт разработчик сайта.</li>
+        <li>Если пароль потерялся — разработчик сделает новый за пару минут.</li>
+        <li><a href="#" id="modeLink" style="color:inherit">Войти по ключу доступа</a> · <a href="setup.html" style="color:inherit">Настройка входа</a></li>
       </ol>
     </details>
   </form>
@@ -130,6 +136,7 @@ details.help ol{padding-left:18px;margin-top:8px;display:grid;gap:4px}
 
 <div class="toast" id="toast"></div>
 
+<script src="crypto.js"></script>
 <script>
 const REPO='shkiparez/severny-alyans', BRANCH='main', FILE='content.json';
 const SITE=new URL('../',location.href).href;
@@ -182,7 +189,7 @@ async function login(t,silent){
   token=t.trim();$('loginErr').textContent='';$('loginBtn').disabled=true;$('loginBtn').textContent='Проверяем…';
   try{
     const r=await gh('');
-    if(r.status===401||r.status===403)throw new Error('Ключ не подошёл. Проверьте, что он скопирован целиком.');
+    if(r.status===401||r.status===403)throw new Error(tokMode?'Ключ не подошёл. Проверьте, что он скопирован целиком.':'Доступ истёк. Попросите разработчика обновить вход.');
     if(r.status===404)throw new Error('У ключа нет доступа к сайту. Попросите разработчика выдать новый.');
     if(!r.ok)throw new Error('GitHub не отвечает ('+r.status+'). Попробуйте позже.');
     const repo=await r.json();
@@ -195,7 +202,24 @@ async function login(t,silent){
     $('loginErr').textContent=e.message||'Не удалось войти. Проверьте интернет.';
   }finally{$('loginBtn').disabled=false;$('loginBtn').textContent='Войти'}
 }
-$('loginForm').onsubmit=e=>{e.preventDefault();login($('token').value)};
+let tokMode=false;
+$('modeLink').onclick=e=>{e.preventDefault();tokMode=!tokMode;$('pwMode').style.display=tokMode?'none':'';$('tokMode').style.display=tokMode?'':'none';
+  $('modeLink').textContent=tokMode?'Войти по логину и паролю':'Войти по ключу доступа';$('loginErr').textContent=''};
+$('loginForm').onsubmit=async e=>{
+  e.preventDefault();
+  if(tokMode){if($('token').value.trim())login($('token').value);return}
+  const l=$('login_').value,p=$('password').value;
+  if(!l.trim()||!p){$('loginErr').textContent='Введите логин и пароль';return}
+  $('loginErr').textContent='';$('loginBtn').disabled=true;$('loginBtn').textContent='Проверяем…';
+  let t;
+  try{
+    const r=await fetch('auth.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('Вход по паролю ещё не настроен. Обратитесь к разработчику.');
+    const blob=await r.json();
+    try{t=await saDecrypt(blob,l,p)}catch(_){throw new Error('Неверный логин или пароль')}
+  }catch(err){$('loginErr').textContent=err.message;$('loginBtn').disabled=false;$('loginBtn').textContent='Войти';return}
+  login(t);
+};
 $('logout').onclick=()=>{if(isDirty()&&!confirm('Есть несохранённые изменения. Всё равно выйти?'))return;try{localStorage.removeItem('sa_token')}catch(_){}location.reload()};
 
 // ---------- load / save ----------
@@ -306,7 +330,7 @@ function build(){
 }
 
 $('siteLink').href=$('siteLink2').href=SITE;
-try{const t=localStorage.getItem('sa_token');if(t){$('token').value=t;login(t,true)}}catch(_){}
+try{const t=localStorage.getItem('sa_token');if(t)login(t,true)}catch(_){}
 </script>
 </body>
 </html>

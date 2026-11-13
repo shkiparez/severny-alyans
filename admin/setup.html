@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Настройка входа — Северный Альянс</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#d6f74b;--ink:#0d0e10;--muted:#7b7f86;--line:#e6e7e3;--paper-2:#f4f5f1;--red:#d9342b;--green:#1f9d55}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.5 Inter,system-ui,sans-serif;background:var(--paper-2);color:var(--ink);min-height:100vh;display:grid;place-items:center;padding:16px}
+h1{font:700 22px Unbounded,Inter,sans-serif;letter-spacing:-.02em;margin-bottom:6px}
+.card{width:100%;max-width:520px;background:#fff;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px rgba(0,0,0,.08)}
+.card>p{color:var(--muted);font-size:14px;margin-bottom:22px}
+label{display:block;margin-bottom:14px}
+label>span{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+input{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:12px;outline:none}
+input:focus{border-color:var(--ink)}
+.row{display:flex;gap:8px}
+.row input{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:999px;padding:14px 20px;font:600 14px Inter,sans-serif;cursor:pointer;background:var(--ink);color:#fff;text-decoration:none}
+.btn.sm{padding:10px 14px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px}
+.btn.wide{width:100%;margin-top:6px}
+.btn:disabled{opacity:.5;cursor:default}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
+.err{color:var(--red);font-size:13px;margin-top:12px;min-height:18px}
+.done{display:none}
+.cred{background:var(--paper-2);border-radius:16px;padding:18px;margin:16px 0}
+.cred div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0}
+.cred div+div{border-top:1px solid var(--line)}
+.cred span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.cred b{font:600 17px ui-monospace,Consolas,monospace;word-break:break-all;text-align:right}
+.warn{background:#fff7d6;border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:16px}
+details{margin:6px 0 18px;font-size:13px;color:var(--muted)}
+details summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details ol{padding-left:18px;margin-top:8px;display:grid;gap:4px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="form">
+    <h1>Настройка входа в админку</h1>
+    <p>Делается один раз разработчиком. Ключ GitHub зашифруется логином и паролем, и владелец будет входить только по ним.</p>
+    <details>
+      <summary>Как получить ключ GitHub</summary>
+      <ol>
+        <li>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token.</li>
+        <li>Repository access: <b>Only select repositories</b> → <b>severny-alyans</b>.</li>
+        <li>Permissions → Contents: <b>Read and write</b>.</li>
+        <li>Срок действия — например, 1 год. Скопируйте ключ и вставьте ниже.</li>
+      </ol>
+    </details>
+    <label><span>Ключ GitHub</span><input type="password" id="token" autocomplete="off" placeholder="github_pat_…"></label>
+    <label><span>Логин для владельца</span><input id="login" value="sever-admin" autocapitalize="none" spellcheck="false"></label>
+    <label><span>Пароль для владельца</span><div class="row"><input id="pass" spellcheck="false" autocomplete="new-password"><button class="btn sm" type="button" id="gen">Другой</button></div>
+      <div class="hint">Сгенерирован автоматически. Можно задать свой — не короче 10 символов.</div></label>
+    <button class="btn wide" id="go">Создать вход</button>
+    <div class="err" id="err"></div>
+  </div>
+  <div class="done" id="done">
+    <h1>Готово ✓</h1>
+    <p>Вход настроен. Через 1–2 минуты логин и пароль заработают на сайте.</p>
+    <div class="cred">
+      <div><span>Адрес</span><b id="oUrl"></b></div>
+      <div><span>Логин</span><b id="oLogin"></b></div>
+      <div><span>Пароль</span><b id="oPass"></b></div>
+    </div>
+    <div class="warn">Сохраните пароль сейчас — он нигде не хранится в открытом виде, посмотреть его потом нельзя. Если забудете — просто настройте вход заново на этой странице.</div>
+    <button class="btn wide" id="copy">Скопировать всё</button>
+    <a class="btn sm wide" style="margin-top:10px" href="./">Перейти ко входу</a>
+  </div>
+</div>
+<script src="crypto.js"></script>
+<script>
+const REPO='shkiparez/severny-alyans',BRANCH='main',PATH='admin/auth.json';
+const API='https://api.github.com/repos/'+REPO;
+const $=id=>document.getElementById(id);
+const enc=s=>{const b=new TextEncoder().encode(s);let r='';b.forEach(x=>r+=String.fromCharCode(x));return btoa(r)};
+$('pass').value=saGenPassword();
+$('gen').onclick=()=>$('pass').value=saGenPassword();
+$('go').onclick=async()=>{
+  const token=$('token').value.trim(),login=$('login').value.trim(),pass=$('pass').value;
+  $('err').textContent='';
+  if(!token)return $('err').textContent='Вставьте ключ GitHub';
+  if(login.length<3)return $('err').textContent='Логин слишком короткий';
+  if(pass.length<10)return $('err').textContent='Пароль должен быть не короче 10 символов';
+  $('go').disabled=true;$('go').textContent='Проверяем ключ…';
+  const H={'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28'};
+  try{
+    const r=await fetch(API,{headers:H});
+    if(r.status===401||r.status===403)throw new Error('Ключ не подошёл');
+    if(r.status===404)throw new Error('У ключа нет доступа к репозиторию severny-alyans');
+    if(!r.ok)throw new Error('GitHub ответил ошибкой '+r.status);
+    const repo=await r.json();
+    if(repo.permissions&&!repo.permissions.push)throw new Error('У ключа нет права записи (Contents: Read and write)');
+    $('go').textContent='Шифруем…';
+    const blob=await saEncrypt(token,login,pass);
+    let sha;const ex=await fetch(API+'/contents/'+PATH+'?ref='+BRANCH+'&t='+Date.now(),{headers:H});
+    if(ex.ok)sha=(await ex.json()).sha;
+    $('go').textContent='Сохраняем…';
+    const body={message:'Настройка входа в админку',content:enc(JSON.stringify(blob,null,2)+'\n'),branch:BRANCH};if(sha)body.sha=sha;
+    const w=await fetch(API+'/contents/'+PATH,{method:'PUT',headers:H,body:JSON.stringify(body)});
+    if(!w.ok)throw new Error('Не удалось сохранить ('+w.status+'). Проверьте права ключа.');
+    const url=new URL('./',location.href).href;
+    $('oUrl').textContent=url;$('oLogin').textContent=login;$('oPass').textContent=pass;
+    $('token').value='';$('form').style.display='none';$('done').style.display='block';
+    $('copy').onclick=async()=>{const t='Админка: '+url+'\nЛогин: '+login+'\nПароль: '+pass;
+      try{await navigator.clipboard.writeText(t);$('copy').textContent='Скопировано ✓'}catch(_){prompt('Скопируйте:',t)}};
+  }catch(e){$('err').textContent=e.message||'Ошибка сети';$('go').disabled=false;$('go').textContent='Создать вход'}
+};
+</script>
+</body>
+</html>

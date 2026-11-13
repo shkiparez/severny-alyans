@@ -6,14 +6,20 @@
 Все тексты, контакты, страны, грузы, шаги, цифры и отзывы лежат в `content.json`.
 Админка правит этот файл через GitHub API, после сохранения GitHub Pages обновляет сайт за 1–2 минуты.
 
-## Как выдать владельцу ключ доступа
+## Вход для владельца (логин и пароль)
+
+Владелец входит в админку по логину и паролю. Под ними лежит ключ GitHub, зашифрованный паролем
+(`admin/auth.json`, AES-GCM + PBKDF2). Без пароля расшифровать его нельзя.
+
+Настройка (делает разработчик, один раз или при смене пароля):
 
 1. GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token.
-2. Repository access: **Only select repositories** → `severny-alyans`.
-3. Permissions → Repository permissions → **Contents: Read and write** (остальное не трогать).
-4. Срок действия — на выбор (например, 1 год). Скопировать ключ и передать владельцу.
+   Repository access: **Only select repositories** → `severny-alyans`. Permissions → **Contents: Read and write**.
+2. Открыть https://shkiparez.github.io/severny-alyans/admin/setup.html, вставить ключ.
+   Логин и пароль сгенерируются сами — нажать «Создать вход» и передать их владельцу.
 
-Ключ даёт доступ только к этому репозиторию. Если ключ утёк — отозвать его там же и выпустить новый.
+Забыли пароль или истёк ключ — повторить настройку, старый пароль перестанет работать.
+Ключ утёк — отозвать его в GitHub и выпустить новый.
 
 ## Что нельзя поменять через админку
 
